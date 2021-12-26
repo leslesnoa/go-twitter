@@ -12,6 +12,7 @@ func main() {
 		log.Fatal("db connection error")
 		return
 	}
+
 	log.Println("DB connection success")
 	handlers.Handler()
 }
