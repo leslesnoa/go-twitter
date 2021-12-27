@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"log"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -23,8 +22,10 @@ func GenerateJWT(t models.UserInfo) (string, error) {
 	// 	"_id":       t.ID.Hex(),
 	// 	"exp":       time.Now().Add(time.Hour * 24).Unix(),
 	// }
+	// SetHeader
 	token := jwt.New(jwt.SigningMethodHS256)
 
+	// SetClaim
 	claims := token.Claims.(jwt.MapClaims)
 	claims["email"] = t.Name
 	claims["number"] = t.Email
@@ -36,9 +37,9 @@ func GenerateJWT(t models.UserInfo) (string, error) {
 	claims["_id"] = t.ID.Hex()
 	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
 
+	// ElectronicSignature
 	tokenStr, err := token.SignedString([]byte(signKey))
 	if err != nil {
-		log.Println("署名時エラー")
 		return tokenStr, err
 	}
 
