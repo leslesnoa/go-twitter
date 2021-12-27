@@ -17,12 +17,12 @@ func CheckIsExistUser(email string) (models.UserInfo, bool, string) {
 
 	condicion := bson.M{"email": email}
 
-	var result models.UserInfo
+	var resUser models.UserInfo
 
-	err := col.FindOne(ctx, condicion).Decode(&result)
-	ID := result.ID.Hex()
+	err := col.FindOne(ctx, condicion).Decode(&resUser)
+	ID := resUser.ID.Hex()
 	if err != nil {
-		return result, false, ID
+		return resUser, false, ID
 	}
-	return result, true, ID
+	return resUser, true, ID
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/leslesnoa/go-twitter/db"
 )
 
-/* DBのステータスチェックミドルウェア*/
+/* DBのステータスチェックするミドルウェア*/
 func CheckDB(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if db.CheckingConnection() == 0 {
