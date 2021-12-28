@@ -27,8 +27,8 @@ func GenerateJWT(t models.UserInfo) (string, error) {
 
 	// SetClaim
 	claims := token.Claims.(jwt.MapClaims)
-	claims["email"] = t.Name
-	claims["number"] = t.Email
+	claims["email"] = t.Email
+	claims["number"] = t.Number
 	claims["name"] = t.Name
 	claims["birth"] = t.Birth
 	claims["biografia"] = t.Biografia
