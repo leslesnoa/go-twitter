@@ -21,7 +21,6 @@ func ModifyRecord(u models.UserInfo, ID string) (bool, error) {
 	if len(u.Number) > 0 {
 		register["number"] = u.Number
 	}
-
 	if len(u.Name) > 0 {
 		register["name"] = u.Name
 	}
@@ -30,6 +29,9 @@ func ModifyRecord(u models.UserInfo, ID string) (bool, error) {
 	}
 	if len(u.Banner) > 0 {
 		register["banner"] = u.Banner
+	}
+	if len(u.Avatar) > 0 {
+		register["avatar"] = u.Avatar
 	}
 	if len(u.Biografia) > 0 {
 		register["biografia"] = u.Biografia
