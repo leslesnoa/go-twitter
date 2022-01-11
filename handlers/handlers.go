@@ -22,16 +22,17 @@ func Handler() {
 	router.HandleFunc("/readTweets", middleware.CheckDB(middleware.ValidJWT(routers.ReadTweets))).Methods("GET")
 	router.HandleFunc("/deleteTweet", middleware.CheckDB(middleware.ValidJWT(routers.DeleteTweet))).Methods("DELETE")
 
-	router.HandleFunc("/deleteTweet", middleware.CheckDB(middleware.ValidJWT(routers.DeleteTweet))).Methods("DELETE")
-
 	router.HandleFunc("/insertRelation", middleware.CheckDB(middleware.ValidJWT(routers.Relation))).Methods("POST")
 	router.HandleFunc("/deleteRelation", middleware.CheckDB(middleware.ValidJWT(routers.DeleteRelation))).Methods("DELETE")
 	router.HandleFunc("/consultRelation", middleware.CheckDB(middleware.ValidJWT(routers.ConsultRelation))).Methods("GET")
 
 	router.HandleFunc("/uploadAvatar", middleware.CheckDB(middleware.ValidJWT(routers.UploadAvatar))).Methods("POST")
-	router.HandleFunc("/getAvatar", middleware.CheckDB(middleware.ValidJWT(routers.GetAvatar))).Methods("GET")
+	router.HandleFunc("/getAvatar", middleware.CheckDB(routers.GetAvatar)).Methods("GET")
 	router.HandleFunc("/uploadBanner", middleware.CheckDB(middleware.ValidJWT(routers.UploadBanner))).Methods("POST")
-	router.HandleFunc("/getBanner", middleware.CheckDB(middleware.ValidJWT(routers.GetBanner))).Methods("GET")
+	router.HandleFunc("/getBanner", middleware.CheckDB(routers.GetBanner)).Methods("GET")
+
+	router.HandleFunc("/listUsers", middleware.CheckDB(middleware.ValidJWT(routers.ListUsers))).Methods("GET")
+	router.HandleFunc("/readFollowTweets", middleware.CheckDB(middleware.ValidJWT(routers.ReadFollowTweets))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
