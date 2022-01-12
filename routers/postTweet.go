@@ -17,7 +17,7 @@ func PostTweet(w http.ResponseWriter, r *http.Request) {
 	register := models.PostTweet{
 		UserId:  IDUserInfo,
 		Message: message.Message,
-		Date:    time.Now().String(),
+		Date:    time.Now(),
 	}
 
 	_, status, err := db.InsertTweet(register)
