@@ -11,11 +11,12 @@ import (
 )
 
 var (
-	MongoCN    = ConnectorDB()
-	clientOpts = options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
-		Username: "root",
-		Password: "password",
-	})
+	MongoCN = ConnectorDB()
+	// clientOpts = options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
+	// 	Username: "root",
+	// 	Password: "password",
+	// })
+	clientOpts = getEnvOptions()
 )
 
 func ConnectorDB() *mongo.Client {
@@ -37,4 +38,14 @@ func CheckingConnection() int {
 		return 0
 	}
 	return 1
+}
+
+func getEnvOptions() *options.ClientOptions {
+	if os.Getenv("MONGO_URI") == "" {
+		return options.Client().ApplyURI("mongodb://localhost:27017")
+	}
+	return options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
+		Username: "root",
+		Password: "password",
+	})
 }
