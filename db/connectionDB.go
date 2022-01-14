@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -10,14 +11,15 @@ import (
 )
 
 var (
-	MongoCN = ConnectorDB()
-
-	clientOptions = options.Client().ApplyURI("mongodb://localhost:27017")
-	// clientOptions = options.Client().ApplyURI("mongodb+srv://root:example@localhost:27017")
+	MongoCN    = ConnectorDB()
+	clientOpts = options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
+		Username: "root",
+		Password: "password",
+	})
 )
 
 func ConnectorDB() *mongo.Client {
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal(err.Error())
 		return client
