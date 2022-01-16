@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug
+  labels:
+    app: twitter
+spec:
+  containers:
+  - name: debug
+    image: debug
+    imagePullPolicy: Never
+    command:
+    - "sh"
+    - "-c"
+    args:
+    - |
+      while true
+      do
+        sleep 5
+      done

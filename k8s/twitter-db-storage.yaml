@@ -1,0 +1,171 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-volume-0
+  labels:
+    app: twitter
+    type: storage
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: "/Users/user/Documents/projects/go-twitter/k8s/debug/debug_storage/pv0000"
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-volume-1
+  labels:
+    app: twitter
+    type: storage
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: "/Users/user/Documents/projects/go-twitter/k8s/debug/debug_storage/pv0001"
+    type: Directory
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storage-volume-2
+  labels:
+    app: twitter
+    type: storage
+spec:
+  storageClassName: slow
+  capacity:
+    storage: 1Gi
+  accessModes:
+  - ReadWriteMany
+  hostPath:
+    path: "/Users/user/Documents/projects/go-twitter/k8s/debug/debug_storage/pv0002"
+    type: Directory
+---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: storage-claim
+#   labels:
+#     app: twitter
+#     type: storage
+# spec:
+#   storageClassName: slow
+#   accessModes:
+#   - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 1Gi
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mongo-secret
+  namespace: default
+  labels:
+    app: twitter
+    type: database
+type: Opaque
+data:
+  root_password: UGFzc3cwcmQ=
+  root_username: YWRtaW4=
+  keyfile: a1RzZFZPdGFkZXpmRENETUxuYkt6UFRwcXF3ZndIcHJwMnBDSUFvNHNKWFJKUzBkbG1Jd2hSQ1Z4WE9jWVpubzZBb1lWdkQ5UFgwekdnVzFNVE5kV3VYQzUyeWFYbi8xSk1HZVYxNm56ZFljTHBsVHBRUlZhb3RyOHlJZkNRYk16b2RiekcvTU5RNWc1aUtPSWVGM1dvTTZKUlR2NnhPb1U5N09Sb2E5R2doaDdQOUlsTjlvZ0ppZ1czMXJRMno4MFBtNXMreVkvWnpxaTRHRFRUSkYwWkJMVTNqSiszdEFJa0pJY0UwSGFFbXBqUldTaGh0OXlyYUR1c25sK3E4UHFITVM0SGsvRDFqdzI0ejRsRnRyMS80Nk1MbEd5YllySitPZGFsckl5VWpULzZnN2JvOExQNWxsWTJ1ZlRPZlBIYVltWnlEUjRmcHpTWkFycGF2NG8va0x2VG9sK2ZDZTQrOFNxMmM0Slk2RHJFU20zekVyLzRFbFlEMXpEcEtXSHl1MXpZQ2R3MXk1R2Z5ZXI1MzlSaW51bnQ5TklxWW9saW1lQlVRU0NLSk5VQ1NzcGhHSk5SRHdFT3JOT1h1aUcyRjkxaEtDL0kxUEM1ZHh1THY5bXM5MXN3M0lVM0M0U0pwSHhRdHJtVjBYM1orTitjMjlVbm1JSHJzYU15U3lkMW5OY1c1a3g5MHhrRGF2TUp2NkNYTEVhbGNYanRwcmx5ZGs3OUt0UkxOd2Rhak9ObEZvMGNmTGRWWE1QWUlwZjM2YkxOTHdKQVJwK3cycXRmdmlsSmtmc29NRG9pcmVrU1hNYmxseFp6UHZFa2tqQmNGdWo0NWV6a0FVOGtiQWdnZ1liR05VTUZDZ2I1VXZwcUZ3ZkNoNFNybC82c2xuVjU3TSs4YVJmcWVEc2lzczFrTVN3K0FqenZrbUk4bnFhN1V3WEU2MDRvOXRUYUFkNkNYektPQVh3bEdkcHlNYVpSdWFpMVJ5QldsWVZaOXdMT3djNlNpbjBHOVZscEFzR2xuTGNOUEp1cmhlbERkSzI5Y1Z0eHBPNHFFdVlHYkpleS8rMU9pR0c1R1pzUTBxMkNhNDVoWVZEQVpqcWtLanM0YlZwcWZkbmoyUnlWbVY4cjM4UzhLdXV0cGtpUGY2UEdpZXhSRm5NR3hYYjJJazBYRHZLTU9BSFhxaG0yOGtlL2tacXVkb2RkcXBFdkxDc3Jvdm14Unc2MDBOdEtLUHhZaW9UMy9tTWI0ZS94MDVNaDFWeTJqeEU3bW0zWEdnSXkwMEtqWk90K2VvK1RUeGxHaFhUY2IyV2RVTXlEdDlKWGNKL044end2VTh0QmdEVThEckgvcXlyZkh4TjgzRwo=
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-svc
+  labels:
+    app: twitter
+    type: database
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  clusterIP: None
+  selector:
+    app: twitter
+    type: database
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+  labels:
+    app: twitter
+    type: database
+spec:
+  selector:
+    matchLabels:
+      app: twitter
+      type: database
+  serviceName: db-svc
+  replicas: 3
+  template:
+    metadata:
+      name: mongodb
+      labels:
+        app: twitter
+        type: database
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongodb
+        image: twitter-db:v1.0.0
+        imagePullPolicy: Never
+        args:
+        - "mongod"
+        - "--auth"
+        - "--clusterAuthMode=keyFile"
+        - "--keyFile=/home/mongodb/keyfile"
+        - "--replSet=rs0"
+        - "--bind_ip_all"
+        env:
+        - name: "MONGO_INITDB_ROOT_USERNAME"
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: root_username
+        - name: "MONGO_INITDB_ROOT_PASSWORD"
+          valueFrom:
+            secretKeyRef:
+              name: mongo-secret
+              key: root_password
+        - name: "MONGO_INITDB_DATABASE"
+          value: "admin"
+        volumeMounts:
+        - mountPath: "/data/db"
+          name: storage
+        - mountPath: "/home/mongodb"
+          name: secret
+      volumes:
+      # - name: storage
+      #   persistentVolumeClaim:
+      #     claimName: storage-claim
+      - name: secret
+        secret:
+          secretName: mongo-secret
+          items:
+          - key: keyfile
+            path: keyfile
+            mode: 0700
+  volumeClaimTemplates:
+  - metadata:
+      name: storage
+    spec:
+      storageClassName: slow
+      accessModes:
+      - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi

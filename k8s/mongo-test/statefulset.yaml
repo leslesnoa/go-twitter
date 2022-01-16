@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongod
+spec:
+  serviceName: mongodb-service
+  replicas: 3
+  selector:
+    matchLabels:
+      role: mongo
+  template:
+    metadata:
+      labels:
+        role: mongo
+        replicaset: MainRepSet
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongod-container
+          image: mongo:4.0
+          command:
+            - "mongod"
+            - "--bind_ip"
+            - "0.0.0.0"
+            - "--replSet"
+            - "repltest"
+          ports:
+            - containerPort: 27017
