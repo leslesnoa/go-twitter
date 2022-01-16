@@ -42,10 +42,15 @@ func CheckingConnection() int {
 
 func getEnvOptions() *options.ClientOptions {
 	if os.Getenv("MONGO_URI") == "" {
-		return options.Client().ApplyURI("mongodb://localhost:27017")
+		return options.Client().ApplyURI("mongodb://localhost:32717")
+		// return options.Client().ApplyURI("mongodb://localhost:27017")
 	}
 	return options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
-		Username: "root",
-		Password: "password",
+		Username: "admin",
+		Password: "Passw0rd",
 	})
+	// return options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
+	// 	Username: "root",
+	// 	Password: "password",
+	// })
 }
