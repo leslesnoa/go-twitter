@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: reactapp
+  labels: 
+    app: twitter
+    type: frontend
+spec:
+  containers:
+  - name: react
+    image: twitter-web:v1.0.2
+    imagePullPolicy: Never
+    ports:
+    - containerPort: 3000
+    env:
+    - name: "REACT_APP_API_HOST"
+      value: "http://10.104.110.254:4000"
+      # value: "http://10.103.217.2:4000"
+---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: reactapp
+#   labels:
+#     app: twitter
+#     type: frontend
+# spec:
+#   replicas: 3
+#   selector:
+#     matchLabels:
+#       app: twitter
+#       type: frontend
+#   strategy:
+#     rollingUpdate:
+#       maxSurge: 1
+#       maxUnavailable: 1
+#     type: RollingUpdate
+#   revisionHistoryLimit: 14
+#   template:
+#     metadata:
+#       name: reactapp
+#       labels: 
+#         app: twitter
+#         type: frontend
+#     spec:
+#       containers:
+#       - name: react
+#         image: twitter-web:v1.0.0
+#         imagePullPolicy: Never
+#         ports:
+#         - containerPort: 3000
+#         env:
+#         - name: "PORT"
+#           value: "3000"
+
+# ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-svc
+  labels:
+    app: twitter
+    type: frontend
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: twitter
+    type: frontend

@@ -1,0 +1,46 @@
+# frontend-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-svc
+  labels:
+    app: twitter
+    tier: frontend
+spec:
+  selector:
+    app: twitter # deploymentの特定
+    tier: frontend # deploymentの特定
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+# frontend-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: twitter
+    tier: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: twitter
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: twitter
+        tier: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.0.12
+        # env:
+        # - name: REACT_APP_API_HOST
+        #   value: "a1f88dcf0091c421a9f219b2940cd6cc-1951663297.ap-northeast-1.elb.amazonaws.com"
+        ports:
+        - containerPort: 80
