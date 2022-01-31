@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
       - name: go
-        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twtter-backend
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twtter-backend:v1.0.1
         ports:
         - containerPort: 4000
         env:
@@ -56,17 +56,20 @@ spec:
             secretKeyRef:
               name: mongo-secret
               key: "root_password"
-        - name: "MONGO_HOSTS"
-          value: "mongo-0.db-svc:27017,mongo-1.db-svc:27017,mongo-2.db-svc:27017,"
         - name: "MONGO_URI"
           value: "mongodb://mongo-0.db-svc:27017,mongo-1.db-svc:27017,mongo-2.db-svc:27017,"
-          # value: "mongodb://mongo-1.db-svc:27017"
         - name: "PORT"
           value: "4000"
-        - name: "MONGO_DATABASE"
-          value: "twitter"
+        - name: "LOG_LEVEL"
+          value: "info"
+        - name: "LOG_OUTPUT"
+          value: "stdout"
         - name: "MONGO_REPLICASET"
           value: "rs0"
+        # - name: "MONGO_DATABASE"
+        #   value: "twitter"
+        # - name: "MONGO_HOSTS"
+        #   value: "mongo-0.db-svc:27017,mongo-1.db-svc:27017,mongo-2.db-svc:27017,"
 
 ---
 apiVersion: v1

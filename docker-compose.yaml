@@ -15,7 +15,7 @@ services:
         - MONGO_USERNAME=root
         - MONGO_PASSWORD=password
         - LOG_LEVEL=info
-        - LOG_OUTPUT=/app/logs
+        - LOG_OUTPUT=stdout
     depends_on:
       - mongo
     links:
