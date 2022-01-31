@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -24,6 +25,7 @@ func InsertTweet(t models.PostTweet) (string, bool, error) {
 
 	result, err := col.InsertOne(ctx, register)
 	if err != nil {
+		logger.Error("Error while insert tweet", err)
 		return "", false, err
 	}
 

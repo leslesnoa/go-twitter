@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -36,6 +37,7 @@ func ReadFllowTweets(ID string, page int) ([]models.ResponseFollowerTweets, bool
 	var results []models.ResponseFollowerTweets
 	err = cursor.All(ctx, &results)
 	if err != nil {
+		logger.Error("Error while read follow tweets", err)
 		return results, false
 	}
 	return results, true

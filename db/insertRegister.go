@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -20,6 +21,7 @@ func InsertRegister(u models.UserInfo) (string, bool, error) {
 
 	result, err := col.InsertOne(ctx, u)
 	if err != nil {
+		logger.Error("Error while registering user", err)
 		return "", false, err
 	}
 

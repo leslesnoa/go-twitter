@@ -2,7 +2,6 @@ package routers
 
 import (
 	"errors"
-	"log"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -30,7 +29,6 @@ func AccessToken(tk string) (*models.Claim, bool, string, error) {
 		return signKey, nil
 	})
 	if err == nil {
-		log.Println(claims.Email)
 		_, isExist, _ := db.CheckIsExistUser(claims.Email)
 		if isExist == true {
 			Email = claims.Email

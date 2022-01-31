@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 )
 
@@ -16,6 +17,7 @@ func InsertRelation(t models.Relation) (bool, error) {
 
 	_, err := col.InsertOne(ctx, t)
 	if err != nil {
+		logger.Error("Error while insert relation", err)
 		return false, err
 	}
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -23,5 +24,8 @@ func DeleteTweet(ID string, UserID string) error {
 	}
 
 	_, err := col.DeleteOne(ctx, condition)
+	if err != nil {
+		logger.Error("Error while Delete tweet", err)
+	}
 	return err
 }

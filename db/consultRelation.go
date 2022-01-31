@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -22,10 +22,9 @@ func ConsultRelation(t models.Relation) (bool, error) {
 	}
 
 	var result models.Relation
-	fmt.Println(result)
 	err := col.FindOne(ctx, condition).Decode(&result)
 	if err != nil {
-		fmt.Println(err.Error())
+		logger.Error("Error while consult relation", err)
 		return false, err
 	}
 	return true, nil

@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"log"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -31,13 +31,14 @@ func ReadTweets(ID string, page int64) ([]*models.TweetsResponse, bool) {
 
 	cursor, err := col.Find(ctx, condition, options)
 	if err != nil {
-		log.Fatal(err.Error())
+		logger.Error("Error while read tweets", err)
 		return results, false
 	}
 
 	for cursor.Next(context.TODO()) {
 		var register models.TweetsResponse
 		if err := cursor.Decode(&register); err != nil {
+			logger.Error("Error while read tweets", err)
 			return results, false
 		}
 		results = append(results, &register)

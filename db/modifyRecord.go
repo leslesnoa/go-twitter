@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -53,6 +54,7 @@ func ModifyRecord(u models.UserInfo, ID string) (bool, error) {
 
 	_, err := col.UpdateOne(ctx, filter, updtString)
 	if err != nil {
+		logger.Error("Error while update user profile", err)
 		return false, err
 	}
 

@@ -9,8 +9,8 @@ import (
 /* DBのステータスチェックするミドルウェア*/
 func CheckDB(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if db.CheckingConnection() == 0 {
-			http.Error(w, "Connection bad internal server error", 500)
+		if err := db.CheckingConnection(); err != nil {
+			http.Error(w, "Bad connection internal server error", http.StatusInternalServerError)
 			return
 		}
 		next.ServeHTTP(w, r)

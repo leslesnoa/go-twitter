@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -27,7 +27,7 @@ func SearchProfile(ID string) (models.UserInfo, error) {
 	err := col.FindOne(ctx, condition).Decode(&profile)
 	profile.Password = ""
 	if err != nil {
-		fmt.Println("Register no exsisted: " + err.Error())
+		logger.Error("Error while show user profile", err)
 		return profile, err
 	}
 	return profile, nil

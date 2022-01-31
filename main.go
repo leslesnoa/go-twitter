@@ -1,18 +1,16 @@
 package main
 
 import (
-	"log"
-
 	"github.com/leslesnoa/go-twitter/db"
 	"github.com/leslesnoa/go-twitter/handlers"
+	"github.com/leslesnoa/go-twitter/logger"
 )
 
 func main() {
-	if db.CheckingConnection() == 0 {
-		log.Fatal("db connection error")
+	if err := db.CheckingConnection(); err != nil {
+		logger.Error("DB connection error", err)
 		return
 	}
-
-	log.Println("DB connection success")
+	logger.Info("DB connection success")
 	handlers.Handler()
 }

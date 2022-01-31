@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 )
 
@@ -16,6 +17,7 @@ func DeleteRelation(t models.Relation) (bool, error) {
 
 	_, err := col.DeleteOne(ctx, t)
 	if err != nil {
+		logger.Error("Error while delete reration", err)
 		return false, err
 	}
 	return true, nil

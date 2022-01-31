@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/middleware"
 	"github.com/leslesnoa/go-twitter/routers"
 	"github.com/rs/cors"
@@ -40,5 +41,6 @@ func Handler() {
 	}
 	handler := cors.AllowAll().Handler(router)
 
+	logger.Info("about to start the application...")
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
 }

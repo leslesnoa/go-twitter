@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -22,6 +23,7 @@ func CheckIsExistUser(email string) (models.UserInfo, bool, string) {
 	err := col.FindOne(ctx, condicion).Decode(&resUser)
 	ID := resUser.ID.Hex()
 	if err != nil {
+		logger.Error("Error while check is exist user", err)
 		return resUser, false, ID
 	}
 	return resUser, true, ID

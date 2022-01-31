@@ -2,9 +2,9 @@ package db
 
 import (
 	"context"
-	"log"
 	"os"
 
+	"github.com/leslesnoa/go-twitter/logger"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -12,45 +12,43 @@ import (
 
 var (
 	MongoCN = ConnectorDB()
-	// clientOpts = options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
-	// 	Username: "root",
-	// 	Password: "password",
-	// })
-	clientOpts = getEnvOptions()
 )
 
 func ConnectorDB() *mongo.Client {
-	client, err := mongo.Connect(context.TODO(), clientOpts)
+	client, err := mongo.Connect(context.TODO(), getEnvOptions())
+	// client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
-		log.Fatal(err.Error())
+		logger.Error("Error bad mongoDB connection.", err)
 		return client
 	}
 	if err = client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		log.Fatal(err.Error())
+		logger.Error("Error bad mongoDB connection.", err)
 		return client
 	}
-	log.Println("Connection Success to mongo db")
+	logger.Info("Connection success to mongoDB.")
 	return client
 }
 
-func CheckingConnection() int {
+func CheckingConnection() error {
 	if err := MongoCN.Ping(context.TODO(), nil); err != nil {
-		return 0
+		logger.Error("Error bad mongoDB connection.", err)
+		return err
 	}
-	return 1
+	return nil
 }
 
 func getEnvOptions() *options.ClientOptions {
+	// username := os.Getenv("MONGO_USERNAME")
+	// password := os.Getenv("MONGO_PASSWORD")
+
 	if os.Getenv("MONGO_URI") == "" {
-		return options.Client().ApplyURI("mongodb://localhost:32717")
-		// return options.Client().ApplyURI("mongodb://localhost:27017")
+		logger.Info("Starting mongoDB connection to mongodb://localhost:27017")
+		return options.Client().ApplyURI("mongodb://localhost:27017")
 	}
+
+	logger.GetLogger().Printf("Start MongoDB connection to %s", os.Getenv("MONGO_URI"))
 	return options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
-		Username: "admin",
-		Password: "Passw0rd",
+		Username: os.Getenv("MONGO_USERNAME"),
+		Password: os.Getenv("MONGO_PASSWORD"),
 	})
-	// return options.Client().ApplyURI(os.Getenv("MONGO_URI")).SetAuth(options.Credential{
-	// 	Username: "root",
-	// 	Password: "password",
-	// })
 }
