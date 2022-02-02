@@ -41,6 +41,6 @@ func Handler() {
 	}
 	handler := cors.AllowAll().Handler(router)
 
-	logger.Info("about to start the application...")
+	logger.Info("about to start the application on PORT:" + PORT)
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
 }
