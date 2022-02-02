@@ -2,6 +2,7 @@ package routers
 
 import (
 	"errors"
+	"os"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
@@ -15,7 +16,8 @@ var (
 )
 
 func AccessToken(tk string) (*models.Claim, bool, string, error) {
-	signKey := []byte("DevelopmentMasters_Facebookgroup")
+	signKey := []byte(os.Getenv("SIGN_KEY"))
+	// signKey := []byte("DevelopmentMasters_Facebookgroup")
 	claims := &models.Claim{}
 
 	splitToken := strings.Split(tk, "Bearer")
