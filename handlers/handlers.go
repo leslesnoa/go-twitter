@@ -12,6 +12,10 @@ import (
 	"github.com/rs/cors"
 )
 
+var (
+	webURI = os.Getenv("WEB_URI")
+)
+
 func Handler() {
 	router := mux.NewRouter()
 
@@ -35,11 +39,22 @@ func Handler() {
 	router.HandleFunc("/listUsers", middleware.CheckDB(middleware.ValidJWT(routers.ListUsers))).Methods("GET")
 	router.HandleFunc("/readFollowTweets", middleware.CheckDB(middleware.ValidJWT(routers.ReadFollowTweets))).Methods("GET")
 
+	if webURI == "" {
+		webURI = "http://localhost:3000"
+	}
+
+	handler := cors.New(cors.Options{
+		AllowedOrigins:   []string{webURI},
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "OPTIONS", "DELETE", "POST", "PUT"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+		Debug:            true,
+	}).Handler(router)
+
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "8080"
 	}
-	handler := cors.AllowAll().Handler(router)
 
 	logger.Info("about to start the application on PORT:" + PORT)
 	log.Fatal(http.ListenAndServe(":"+PORT, handler))
