@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.0.13
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.0.15
         # env:
         # - name: REACT_APP_API_HOST
         #   value: "a1f88dcf0091c421a9f219b2940cd6cc-1951663297.ap-northeast-1.elb.amazonaws.com"

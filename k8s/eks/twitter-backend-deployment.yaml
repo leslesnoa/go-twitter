@@ -23,7 +23,7 @@ metadata:
     app: twitter
     type: backend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: twitter
@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: go
-        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-app:v1.0.2
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-app:v1.0.3
         ports:
         - containerPort: 4000
         env:
@@ -72,8 +72,8 @@ spec:
           value: "stdout"
         - name: "MONGO_REPLICASET"
           value: "rs0"
-        # - name: "WEB_URI"
-        #   value: ""
+        - name: "WEB_URI"
+          value: "http://ab49596236c2449f59bba74d0bd40d2c-1697404589.ap-northeast-1.elb.amazonaws.com"
         # - name: "MONGO_DATABASE"
         #   value: "twitter"
         # - name: "MONGO_HOSTS"
