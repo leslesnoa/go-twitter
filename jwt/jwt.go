@@ -5,15 +5,12 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 )
 
 func GenerateJWT(t models.UserInfo) (string, error) {
 
 	signKey := []byte(os.Getenv("SIGN_KEY"))
-	// signKey := []byte("DevelopmentMasters_Facebookgroup")
-	logger.Info(string(signKey))
 
 	claims := jwt.MapClaims{
 		"email":     t.Email,
