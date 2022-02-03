@@ -1,4 +1,4 @@
-package routers
+package handlers
 
 import (
 	"io"
@@ -8,7 +8,7 @@ import (
 	"github.com/leslesnoa/go-twitter/db"
 )
 
-func GetAvatar(w http.ResponseWriter, r *http.Request) {
+func GetBanner(w http.ResponseWriter, r *http.Request) {
 
 	ID := r.URL.Query().Get("id")
 	if len(ID) < 1 {
@@ -22,7 +22,7 @@ func GetAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Openfile, err := os.Open("uploads/avatars/" + profile.Avatar)
+	Openfile, err := os.Open("uploads/banners/" + profile.Banner)
 	if err != nil {
 		http.Error(w, "Error not Found an image "+err.Error(), http.StatusBadRequest)
 		return
@@ -34,8 +34,4 @@ func GetAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := Openfile.Close(); err != nil {
-		http.Error(w, "Internal Server Error image could not closed "+err.Error(), http.StatusInternalServerError)
-		return
-	}
 }
