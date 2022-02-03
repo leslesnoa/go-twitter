@@ -34,4 +34,8 @@ func GetAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := Openfile.Close(); err != nil {
+		http.Error(w, "Internal Server Error image could not closed "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
