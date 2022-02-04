@@ -2,15 +2,12 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func CheckIsExistUser(email string) (models.UserInfo, bool, string) {
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	defer cancel()
+func CheckIsExistUser(email string, ctx context.Context) (models.UserInfo, bool, string) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("users")

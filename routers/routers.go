@@ -40,7 +40,8 @@ func Router() {
 	router.HandleFunc("/readFollowTweets", middleware.CheckDB(middleware.ValidJWT(handlers.ReadFollowTweets))).Methods("GET")
 
 	if webURI == "" {
-		webURI = "http://localhost:3000"
+		webURI = "*"
+		// webURI = "http://localhost:3000"
 	}
 
 	handler := cors.New(cors.Options{

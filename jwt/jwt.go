@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func GenerateJWT(t models.UserInfo) (string, error) {
-
+	fmt.Println("User info: ", t)
 	signKey := []byte(os.Getenv("SIGN_KEY"))
 
 	claims := jwt.MapClaims{
