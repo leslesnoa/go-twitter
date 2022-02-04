@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/leslesnoa/go-twitter/db"
-	"github.com/leslesnoa/go-twitter/handlers"
 	"github.com/leslesnoa/go-twitter/logger"
+	"github.com/leslesnoa/go-twitter/routers"
 )
 
 func main() {
@@ -12,5 +12,5 @@ func main() {
 		return
 	}
 	logger.Info("DB connection success")
-	handlers.Handler()
+	routers.Router()
 }

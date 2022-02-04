@@ -1,9 +1,12 @@
-package routers
+package handlers
 
 import (
+	"context"
 	"errors"
+	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/leslesnoa/go-twitter/db"
@@ -17,12 +20,11 @@ var (
 
 func AccessToken(tk string) (*models.Claim, bool, string, error) {
 	signKey := []byte(os.Getenv("SIGN_KEY"))
-	// signKey := []byte("DevelopmentMasters_Facebookgroup")
 	claims := &models.Claim{}
 
 	splitToken := strings.Split(tk, "Bearer")
 	if len(splitToken) != 2 {
-		return claims, false, string(""), errors.New("format error invalid token")
+		return claims, false, string(""), errors.New(fmt.Sprintf("format error invalid token %s", tk))
 	}
 
 	tk = strings.TrimSpace(splitToken[1])
@@ -30,14 +32,17 @@ func AccessToken(tk string) (*models.Claim, bool, string, error) {
 	tkn, err := jwt.ParseWithClaims(tk, claims, func(token *jwt.Token) (interface{}, error) {
 		return signKey, nil
 	})
+
 	if err == nil {
-		_, isExist, _ := db.CheckIsExistUser(claims.Email)
+		ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+		_, isExist, _ := db.CheckIsExistUser(claims.Email, ctx)
 		if isExist == true {
 			Email = claims.Email
 			IDUserInfo = claims.ID.Hex()
 		}
 		return claims, isExist, IDUserInfo, nil
 	}
+
 	if !tkn.Valid {
 		return claims, false, string(""), errors.New("token invalid")
 	}

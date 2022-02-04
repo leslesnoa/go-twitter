@@ -1,13 +1,17 @@
 package db
 
 import (
+	"context"
+	"time"
+
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"golang.org/x/crypto/bcrypt"
 )
 
 func TryLogin(email string, password string) (models.UserInfo, bool) {
-	user, isExist, _ := CheckIsExistUser(email)
+	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+	user, isExist, _ := CheckIsExistUser(email, ctx)
 	if isExist == false {
 		return user, false
 	}

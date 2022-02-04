@@ -1,4 +1,4 @@
-package routers
+package handlers
 
 import (
 	"io"
@@ -10,10 +10,10 @@ import (
 	"github.com/leslesnoa/go-twitter/models"
 )
 
-func UploadAvatar(w http.ResponseWriter, r *http.Request) {
-	file, handler, err := r.FormFile("avatar")
+func UploadBanner(w http.ResponseWriter, r *http.Request) {
+	file, handler, err := r.FormFile("banner")
 	var extention = strings.Split(handler.Filename, ".")[1]
-	var record string = "uploads/avatars/" + IDUserInfo + "." + extention
+	var record string = "uploads/banners/" + IDUserInfo + "." + extention
 
 	f, err := os.OpenFile(record, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -30,10 +30,10 @@ func UploadAvatar(w http.ResponseWriter, r *http.Request) {
 	var user models.UserInfo
 	var status bool
 
-	user.Avatar = IDUserInfo + "." + extention
+	user.Banner = IDUserInfo + "." + extention
 	status, err = db.ModifyRecord(user, IDUserInfo)
 	if err != nil || status == false {
-		http.Error(w, "Error when saving the avatar in the DB! "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "Error when saving the Banner in the DB! "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
