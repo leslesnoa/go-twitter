@@ -19,7 +19,6 @@ func CheckIsExistUser(email string, ctx context.Context) (models.UserInfo, bool,
 	err := col.FindOne(ctx, condicion).Decode(&resUser)
 	ID := resUser.ID.Hex()
 	if err != nil {
-		// logger.Error("Error while check is exist user", err)
 		return resUser, false, ID
 	}
 	return resUser, true, ID

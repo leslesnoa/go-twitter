@@ -6,7 +6,7 @@ import (
 	"github.com/leslesnoa/go-twitter/db"
 )
 
-func DeleteTweet(w http.ResponseWriter, r *http.Request) {
+func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ID := r.URL.Query().Get("id")
 
 	if len(ID) < 1 {
@@ -15,7 +15,7 @@ func DeleteTweet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	/* ID: objID, IDUserInfo: UserID */
-	err := db.DeleteTweet(ID, IDUserInfo)
+	err := db.DeleteUser(IDUserInfo)
 	if err != nil {
 		http.Error(w, "Error while delete tweet "+err.Error(), http.StatusBadRequest)
 		return

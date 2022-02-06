@@ -23,6 +23,8 @@ func Router() {
 	router.HandleFunc("/login", middleware.CheckDB(handlers.Login)).Methods("POST")
 	router.HandleFunc("/search", middleware.CheckDB(middleware.ValidJWT(handlers.SearchProfile))).Methods("GET")
 	router.HandleFunc("/modifyProfile", middleware.CheckDB(middleware.ValidJWT(handlers.ModifyProfile))).Methods("PUT")
+	router.HandleFunc("/deleteUser", middleware.CheckDB(middleware.ValidJWT(handlers.DeleteUser))).Methods("DELETE")
+
 	router.HandleFunc("/tweet", middleware.CheckDB(middleware.ValidJWT(handlers.PostTweet))).Methods("POST")
 	router.HandleFunc("/readTweets", middleware.CheckDB(middleware.ValidJWT(handlers.ReadTweets))).Methods("GET")
 	router.HandleFunc("/deleteTweet", middleware.CheckDB(middleware.ValidJWT(handlers.DeleteTweet))).Methods("DELETE")

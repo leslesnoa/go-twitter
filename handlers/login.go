@@ -17,24 +17,24 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&t)
 	if err != nil {
-		http.Error(w, "invalid request login user: "+err.Error(), 400)
+		http.Error(w, "invalid request body for login user: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if len(t.Email) == 0 {
-		http.Error(w, "invalid request Email: "+err.Error(), 400)
+		http.Error(w, "invalid request Email: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	document, isExist := db.TryLogin(t.Email, t.Password)
 	if isExist == false {
-		http.Error(w, "invalid username and / or password "+err.Error(), 400)
+		http.Error(w, "invalid request username or password", http.StatusBadRequest)
 		return
 	}
 
 	jwtKey, err := jwt.GenerateJWT(document)
 	if err != nil {
-		http.Error(w, "An error occurred when trying to generate the corresponding Token: "+err.Error(), 400)
+		http.Error(w, "An error occurred when trying to generate the corresponding Token: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 

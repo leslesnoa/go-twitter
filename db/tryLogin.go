@@ -10,7 +10,9 @@ import (
 )
 
 func TryLogin(email string, password string) (models.UserInfo, bool) {
-	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
 	user, isExist, _ := CheckIsExistUser(email, ctx)
 	if isExist == false {
 		return user, false

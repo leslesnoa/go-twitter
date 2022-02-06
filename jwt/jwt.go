@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -9,9 +8,11 @@ import (
 	"github.com/leslesnoa/go-twitter/models"
 )
 
+var (
+	signKey = []byte(os.Getenv("SIGN_KEY"))
+)
+
 func GenerateJWT(t models.UserInfo) (string, error) {
-	fmt.Println("User info: ", t)
-	signKey := []byte(os.Getenv("SIGN_KEY"))
 
 	claims := jwt.MapClaims{
 		"email":     t.Email,
