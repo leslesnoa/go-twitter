@@ -49,10 +49,14 @@ func ModifyRecord(u models.UserInfo, ID string) (bool, error) {
 	}
 
 	/* 渡されたIDに等しいユーザを抽出するフィルター */
-	objID, _ := primitive.ObjectIDFromHex(ID)
+	objID, err := primitive.ObjectIDFromHex(ID)
+	if err != nil {
+		logger.Error("Error request ID is invalid", err)
+		return false, err
+	}
 	filter := bson.M{"_id": bson.M{"$eq": objID}}
 
-	_, err := col.UpdateOne(ctx, filter, updtString)
+	_, err = col.UpdateOne(ctx, filter, updtString)
 	if err != nil {
 		logger.Error("Error while update user profile", err)
 		return false, err

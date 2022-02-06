@@ -1,22 +1,17 @@
-package jwt_test
+package jwt
 
 import (
-	"os"
 	"testing"
 
-	jwtt "github.com/dgrijalva/jwt-go"
-	"github.com/leslesnoa/go-twitter/jwt"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/leslesnoa/go-twitter/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var (
-	signKey = []byte(os.Getenv("SIGN_KEY"))
-)
-
 func TestGenerateJWT(t *testing.T) {
 
+	signKey = []byte("sign key by test")
 	objID := primitive.NewObjectID()
 
 	u := models.UserInfo{
@@ -24,14 +19,14 @@ func TestGenerateJWT(t *testing.T) {
 		ID:    objID,
 	}
 
-	jwtKey, err := jwt.GenerateJWT(u)
+	jwtKey, err := GenerateJWT(u)
 	// os.Setenv("testToken", jwtKey)
 
 	/* 正常にJWT生成がされること */
 	assert.NoError(t, err)
 
 	claims := &models.Claim{}
-	tk, err := jwtt.ParseWithClaims(jwtKey, claims, func(token *jwtt.Token) (interface{}, error) {
+	tk, err := jwt.ParseWithClaims(jwtKey, claims, func(token *jwt.Token) (interface{}, error) {
 		return signKey, nil
 	})
 
@@ -44,5 +39,4 @@ func TestGenerateJWT(t *testing.T) {
 	/* claimの情報が正しいこと */
 	assert.Equal(t, claims.Email, "test@gmail.com")
 	assert.Equal(t, claims.ID, objID)
-	assert.Equal(t, claims.ExpiresAt, objID)
 }

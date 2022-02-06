@@ -29,7 +29,8 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
 	_, encontrado, _ := db.CheckIsExistUser(t.Email, ctx)
 	if encontrado == true {
 		http.Error(w, "Error invalid request Email is already registerd", http.StatusBadRequest)
@@ -38,7 +39,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	_, status, err := db.InsertRegister(t)
 	if err != nil {
-		http.Error(w, "Occured un error while register user: "+err.Error(), http.StatusInternalServerError)
+		http.Error(w, "An error ocurred while register user: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 

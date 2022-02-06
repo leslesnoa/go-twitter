@@ -26,5 +26,5 @@ func InsertRegister(u models.UserInfo) (string, bool, error) {
 	}
 
 	ObjID, _ := result.InsertedID.(primitive.ObjectID)
-	return ObjID.String(), true, nil
+	return ObjID.Hex(), true, nil
 }
