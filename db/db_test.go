@@ -1,8 +1,9 @@
 package db
 
 import (
-	"fmt"
+	"context"
 	"testing"
+	"time"
 
 	"github.com/leslesnoa/go-twitter/models"
 	"github.com/mongo-go/testdb"
@@ -21,7 +22,10 @@ var userID string
 
 /* 1. ユーザ作成 */
 func TestInsertRegister(t *testing.T) {
-	id, status, err := InsertRegister(testUser)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	id, status, err := InsertRegister(testUser, ctx)
 	assert.Equal(t, status, true)
 	assert.NoError(t, err)
 	// fmt.Print(uId)
@@ -31,7 +35,10 @@ func TestInsertRegister(t *testing.T) {
 
 /* 2. 作成したuserIdでユーザ情報取得できる */
 func TestSearchProfile(t *testing.T) {
-	user, err := SearchProfile(userID)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	user, err := SearchProfile(userID, ctx)
 	assert.NoError(t, err)
 	assert.Equal(t, user.Email, "test@example.com")
 	assert.Equal(t, user.Password, "")
@@ -42,18 +49,24 @@ func TestSearchProfile(t *testing.T) {
 
 /* 3. ユーザ情報を変更できること */
 func TestModifyRecord(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
 	testUser.Number = "hugahuga"
 	testUser.Name = "hogehoge"
 	testUser.Birth = "2020-11-11"
 	// fmt.Println(userID)
-	ok, err := ModifyRecord(testUser, userID)
+	ok, err := ModifyRecord(testUser, userID, ctx)
 	assert.Equal(t, ok, true)
 	assert.NoError(t, err)
 }
 
 /* 4. ユーザ情報が変更されていることの確認 */
 func TestSearchProfile2(t *testing.T) {
-	user, err := SearchProfile(userID)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	user, err := SearchProfile(userID, ctx)
 	assert.NoError(t, err)
 	assert.Equal(t, user.Number, "hugahuga")
 	assert.Equal(t, user.Name, "hogehoge")
@@ -62,7 +75,9 @@ func TestSearchProfile2(t *testing.T) {
 
 /* 5. 作成したユーザを削除できること */
 func TestDeleteUser(t *testing.T) {
-	fmt.Println(userID)
-	err := DeleteUser(userID)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	err := DeleteUser(userID, ctx)
 	assert.NoError(t, err)
 }

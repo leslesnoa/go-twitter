@@ -34,7 +34,8 @@ func AccessToken(tk string) (*models.Claim, bool, string, error) {
 	})
 
 	if err == nil {
-		ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		defer cancel()
 		_, isExist, _ := db.CheckIsExistUser(claims.Email, ctx)
 		if isExist == true {
 			Email = claims.Email

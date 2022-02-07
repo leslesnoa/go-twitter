@@ -16,8 +16,9 @@ func ConsultRelation(w http.ResponseWriter, r *http.Request) {
 	t.UserRelationID = ID
 
 	var resp models.ResponseConsultRelation
+	ctx := r.Context()
 
-	status, err := db.ConsultRelation(t)
+	status, err := db.ConsultRelation(t, ctx)
 	if err != nil || status == false {
 		resp.Status = false
 	} else {

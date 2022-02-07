@@ -1,10 +1,8 @@
 package handlers
 
 import (
-	"context"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/db"
 	"github.com/leslesnoa/go-twitter/models"
@@ -29,15 +27,15 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	defer cancel()
+	ctx := r.Context()
+
 	_, encontrado, _ := db.CheckIsExistUser(t.Email, ctx)
 	if encontrado == true {
 		http.Error(w, "Error invalid request Email is already registerd", http.StatusBadRequest)
 		return
 	}
 
-	_, status, err := db.InsertRegister(t)
+	_, status, err := db.InsertRegister(t, ctx)
 	if err != nil {
 		http.Error(w, "An error ocurred while register user: "+err.Error(), http.StatusInternalServerError)
 		return

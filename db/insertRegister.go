@@ -2,17 +2,13 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func InsertRegister(u models.UserInfo) (string, bool, error) {
-
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	defer cancel()
+func InsertRegister(u models.UserInfo, ctx context.Context) (string, bool, error) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("users")

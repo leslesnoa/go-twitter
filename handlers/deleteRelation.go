@@ -14,7 +14,9 @@ func DeleteRelation(w http.ResponseWriter, r *http.Request) {
 	t.UserID = IDUserInfo
 	t.UserRelationID = ID
 
-	status, err := db.DeleteRelation(t)
+	ctx := r.Context()
+
+	status, err := db.DeleteRelation(t, ctx)
 	if err != nil {
 		http.Error(w, "an error occured while delete relation "+err.Error(), http.StatusBadRequest)
 		return

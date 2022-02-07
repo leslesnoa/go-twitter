@@ -14,8 +14,10 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	ctx := r.Context()
+
 	/* ID: objID, IDUserInfo: UserID */
-	err := db.DeleteUser(IDUserInfo)
+	err := db.DeleteUser(IDUserInfo, ctx)
 	if err != nil {
 		http.Error(w, "Error while delete tweet "+err.Error(), http.StatusBadRequest)
 		return

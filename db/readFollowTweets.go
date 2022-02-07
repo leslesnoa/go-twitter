@@ -2,16 +2,13 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func ReadFllowTweets(ID string, page int) ([]models.ResponseFollowerTweets, bool) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+func ReadFllowTweets(ID string, page int, ctx context.Context) ([]models.ResponseFollowerTweets, bool) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("relation")

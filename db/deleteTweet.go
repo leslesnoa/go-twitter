@@ -2,16 +2,13 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func DeleteTweet(ID string, UserID string) error {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+func DeleteTweet(ID string, UserID string, ctx context.Context) error {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("tweet")

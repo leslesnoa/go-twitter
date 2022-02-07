@@ -20,8 +20,9 @@ func ListUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pag := int64(pagTemp)
+	ctx := r.Context()
 
-	result, status := db.ReadAllUser(IDUserInfo, pag, search, typeUser)
+	result, status := db.ReadAllUser(IDUserInfo, pag, search, typeUser, ctx)
 	if status == false {
 		http.Error(w, "Error while reading users DB", http.StatusBadRequest)
 		return

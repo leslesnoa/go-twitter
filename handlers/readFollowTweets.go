@@ -20,7 +20,9 @@ func ReadFollowTweets(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	request, ok := db.ReadFllowTweets(IDUserInfo, page)
+	ctx := r.Context()
+
+	request, ok := db.ReadFllowTweets(IDUserInfo, page, ctx)
 	if ok == false {
 		http.Error(w, "Error while read tweets", http.StatusBadRequest)
 		return

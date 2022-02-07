@@ -17,8 +17,9 @@ func Relation(w http.ResponseWriter, r *http.Request) {
 	var t models.Relation
 	t.UserID = IDUserInfo
 	t.UserRelationID = ID
+	ctx := r.Context()
 
-	status, err := db.InsertRelation(t)
+	status, err := db.InsertRelation(t, ctx)
 	if err != nil {
 		http.Error(w, "an error occured while insert relation "+err.Error(), http.StatusBadRequest)
 		return

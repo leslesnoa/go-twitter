@@ -16,9 +16,11 @@ func GetAvatar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	profile, err := db.SearchProfile(ID)
+	ctx := r.Context()
+
+	profile, err := db.SearchProfile(ID, ctx)
 	if err != nil {
-		http.Error(w, "must request parameter id "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "Error request must into id "+err.Error(), http.StatusBadRequest)
 		return
 	}
 

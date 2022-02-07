@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
@@ -10,9 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func InsertTweet(t models.PostTweet) (string, bool, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+func InsertTweet(t models.PostTweet, ctx context.Context) (string, bool, error) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("tweet")
