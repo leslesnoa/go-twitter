@@ -19,7 +19,7 @@ func TestGenerateJWT(t *testing.T) {
 		ID:    objID,
 	}
 
-	jwtKey, err := GenerateJWT(u)
+	jwtKey, err := GenerateJWT(&u)
 	// os.Setenv("testToken", jwtKey)
 
 	/* 正常にJWT生成がされること */
