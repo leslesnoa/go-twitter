@@ -96,8 +96,3 @@ func TestDeleteUser(t *testing.T) {
 	err := DeleteUser(userID, ctx)
 	assert.NoError(t, err)
 }
-
-/* ツイートを投稿できる */
-func TestInsertTweet(t *testing.T) {
-
-}

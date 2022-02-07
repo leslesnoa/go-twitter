@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/leslesnoa/go-twitter/db"
@@ -18,7 +17,7 @@ var (
 	IDUserInfo string
 )
 
-func AccessToken(tk string) (*models.Claim, bool, string, error) {
+func AccessToken(tk string, ctx context.Context) (*models.Claim, bool, string, error) {
 	signKey := []byte(os.Getenv("SIGN_KEY"))
 	claims := &models.Claim{}
 
@@ -34,8 +33,6 @@ func AccessToken(tk string) (*models.Claim, bool, string, error) {
 	})
 
 	if err == nil {
-		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-		defer cancel()
 		_, isExist, _ := db.CheckIsExistUser(claims.Email, ctx)
 		if isExist == true {
 			Email = claims.Email
