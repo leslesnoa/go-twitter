@@ -27,7 +27,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	document, isExist := db.TryLogin(t.Email, t.Password)
-	if isExist == false {
+	if !isExist {
 		http.Error(w, "invalid request username or password", http.StatusBadRequest)
 		return
 	}
