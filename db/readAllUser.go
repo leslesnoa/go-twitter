@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
@@ -10,9 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func ReadAllUser(ID string, page int64, search string, kind string) ([]*models.UserInfo, bool) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+func ReadAllUser(ID string, page int64, search string, kind string, ctx context.Context) ([]*models.UserInfo, bool) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("users")
@@ -49,7 +46,7 @@ func ReadAllUser(ID string, page int64, search string, kind string) ([]*models.U
 
 		include = false
 
-		relation, err = ConsultRelation(r)
+		relation, err = ConsultRelation(r, ctx)
 		if kind == "new" && relation == false {
 			include = true
 		}

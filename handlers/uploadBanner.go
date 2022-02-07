@@ -29,9 +29,10 @@ func UploadBanner(w http.ResponseWriter, r *http.Request) {
 
 	var user models.UserInfo
 	var status bool
+	ctx := r.Context()
 
 	user.Banner = IDUserInfo + "." + extention
-	status, err = db.ModifyRecord(user, IDUserInfo)
+	status, err = db.ModifyRecord(user, IDUserInfo, ctx)
 	if err != nil || status == false {
 		http.Error(w, "Error when saving the Banner in the DB! "+err.Error(), http.StatusBadRequest)
 		return

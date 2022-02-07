@@ -2,15 +2,12 @@ package db
 
 import (
 	"context"
-	"time"
 
 	"github.com/leslesnoa/go-twitter/logger"
 	"github.com/leslesnoa/go-twitter/models"
 )
 
-func DeleteRelation(t models.Relation) (bool, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
-	defer cancel()
+func DeleteRelation(t models.Relation, ctx context.Context) (bool, error) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("relation")

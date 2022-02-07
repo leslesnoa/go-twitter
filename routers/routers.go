@@ -24,9 +24,7 @@ func Router() {
 
 	noAuthRouter.HandleFunc("/register", handlers.Register).Methods("POST")
 	noAuthRouter.HandleFunc("/login", handlers.Login).Methods("POST")
-	noAuthRouter.HandleFunc("/uploadAvatar", handlers.UploadAvatar).Methods("POST")
 	noAuthRouter.HandleFunc("/getAvatar", handlers.GetAvatar).Methods("GET")
-	noAuthRouter.HandleFunc("/uploadBanner", handlers.UploadBanner).Methods("POST")
 	noAuthRouter.HandleFunc("/getBanner", handlers.GetBanner).Methods("GET")
 
 	authRouter := router.MatcherFunc(IsAuthRouter).Subrouter()
@@ -46,6 +44,13 @@ func Router() {
 
 	authRouter.HandleFunc("/listUsers", handlers.ListUsers).Methods("GET")
 	authRouter.HandleFunc("/readFollowTweets", handlers.ReadFollowTweets).Methods("GET")
+
+	authRouter.HandleFunc("/uploadAvatar", handlers.UploadAvatar).Methods("POST")
+	authRouter.HandleFunc("/uploadBanner", handlers.UploadBanner).Methods("POST")
+
+	if webURI == "" {
+		webURI = "http://localhost:3000"
+	}
 
 	handler := cors.New(cors.Options{
 		AllowedOrigins:   []string{webURI},

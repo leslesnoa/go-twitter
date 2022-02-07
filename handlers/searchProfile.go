@@ -13,7 +13,9 @@ func SearchProfile(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "parameter ID error", http.StatusBadRequest)
 	}
 
-	profile, err := db.SearchProfile(ID)
+	ctx := r.Context()
+
+	profile, err := db.SearchProfile(ID, ctx)
 	if err != nil {
 		http.Error(w, "an error occurred while search record "+err.Error(), 400)
 	}

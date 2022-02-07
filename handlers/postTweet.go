@@ -20,14 +20,16 @@ func PostTweet(w http.ResponseWriter, r *http.Request) {
 		Date:    time.Now(),
 	}
 
-	_, status, err := db.InsertTweet(register)
+	ctx := r.Context()
+
+	_, status, err := db.InsertTweet(register, ctx)
 	if err != nil {
-		http.Error(w, "Occured an error while insert tweet register "+err.Error(), 400)
+		http.Error(w, "Occured an error while insert tweet register "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	if status == false {
-		http.Error(w, "Insert failed "+err.Error(), 400)
+		http.Error(w, "Insert failed "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
