@@ -1,5 +1,5 @@
 .DS_Store
-*keyfile
-debug_storage
-ebs
-uploads
+**keyfile
+**debug_storage
+**ebs
+**uploads
