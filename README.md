@@ -1,5 +1,5 @@
 # 概要
-マイクロサービス、Kubernetes技術検証用のTwitterデモアプリです。
+マイクロサービス、Kubernetes技術検証用Twitterデモアプリ
 
 # 使用技術
 ## バックエンド
@@ -9,6 +9,8 @@
 - React
 
 ## 開発環境、インフラ
+- AWS
+- EKS
 - Kubernetes
 - Docker/Docker-compose
 - MongoDB
@@ -30,6 +32,7 @@
 - フォロワー表示
 
 # インフラ構成
+![インフラ構成図](./img/Twitter-App.drawio.png "インフラ構成図") 
 
 
 
