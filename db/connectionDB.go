@@ -16,7 +16,6 @@ var (
 
 func ConnectorDB() *mongo.Client {
 	client, err := mongo.Connect(context.TODO(), getEnvOptions())
-	// client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		logger.Error("Error bad mongoDB connection.", err)
 		return client
@@ -38,8 +37,6 @@ func CheckingConnection() error {
 }
 
 func getEnvOptions() *options.ClientOptions {
-	// username := os.Getenv("MONGO_USERNAME")
-	// password := os.Getenv("MONGO_PASSWORD")
 
 	if os.Getenv("MONGO_URI") == "" {
 		logger.Info("Starting mongoDB connection to mongodb://localhost:27017")
