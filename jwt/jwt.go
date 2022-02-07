@@ -12,7 +12,7 @@ var (
 	signKey = []byte(os.Getenv("SIGN_KEY"))
 )
 
-func GenerateJWT(t models.UserInfo) (string, error) {
+func GenerateJWT(t *models.UserInfo) (string, error) {
 
 	claims := jwt.MapClaims{
 		"email":     t.Email,

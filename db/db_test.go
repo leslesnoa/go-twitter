@@ -20,7 +20,7 @@ var testUser = models.UserInfo{
 }
 var userID string
 
-/* 1. ユーザ作成 */
+/* ユーザ作成 */
 func TestInsertRegister(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
@@ -28,26 +28,40 @@ func TestInsertRegister(t *testing.T) {
 	id, status, err := InsertRegister(testUser, ctx)
 	assert.Equal(t, status, true)
 	assert.NoError(t, err)
+	assert.True(t, status)
 	// fmt.Print(uId)
 
 	userID = id
 }
 
-/* 2. 作成したuserIdでユーザ情報取得できる */
+/* ログインできること */
+func TestTryLogin(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	user, ok := TryLogin(testUser.Email, testUser.Password, ctx)
+	assert.True(t, ok)
+	assert.Equal(t, testUser.Email, user.Email)
+	assert.Equal(t, testUser.Number, user.Number)
+	assert.Equal(t, testUser.Name, user.Name)
+	assert.Equal(t, testUser.Birth, user.Birth)
+}
+
+/* userIdでユーザ情報取得できる */
 func TestSearchProfile(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
 
 	user, err := SearchProfile(userID, ctx)
 	assert.NoError(t, err)
-	assert.Equal(t, user.Email, "test@example.com")
-	assert.Equal(t, user.Password, "")
-	assert.Equal(t, user.Number, "テスト")
-	assert.Equal(t, user.Name, "太郎")
-	assert.Equal(t, user.Birth, "2012-12-12")
+	assert.Equal(t, "test@example.com", user.Email)
+	assert.Equal(t, "", user.Password)
+	assert.Equal(t, "テスト", user.Number)
+	assert.Equal(t, "太郎", user.Name)
+	assert.Equal(t, "2012-12-12", user.Birth)
 }
 
-/* 3. ユーザ情報を変更できること */
+/* ユーザ情報を変更できる */
 func TestModifyRecord(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
@@ -59,25 +73,31 @@ func TestModifyRecord(t *testing.T) {
 	ok, err := ModifyRecord(testUser, userID, ctx)
 	assert.Equal(t, ok, true)
 	assert.NoError(t, err)
+	assert.True(t, ok)
 }
 
-/* 4. ユーザ情報が変更されていることの確認 */
+/* ユーザ情報が変更されていることの確認 */
 func TestSearchProfile2(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
 
 	user, err := SearchProfile(userID, ctx)
 	assert.NoError(t, err)
-	assert.Equal(t, user.Number, "hugahuga")
-	assert.Equal(t, user.Name, "hogehoge")
-	assert.Equal(t, user.Birth, "2020-11-11")
+	assert.Equal(t, "hugahuga", user.Number)
+	assert.Equal(t, "hogehoge", user.Name)
+	assert.Equal(t, "2020-11-11", user.Birth)
 }
 
-/* 5. 作成したユーザを削除できること */
+/* 作成したユーザを削除できること */
 func TestDeleteUser(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
 	defer cancel()
 
 	err := DeleteUser(userID, ctx)
 	assert.NoError(t, err)
+}
+
+/* ツイートを投稿できる */
+func TestInsertTweet(t *testing.T) {
+
 }

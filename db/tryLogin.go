@@ -8,11 +8,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func TryLogin(email string, password string, ctx context.Context) (models.UserInfo, bool) {
+func TryLogin(email string, password string, ctx context.Context) (*models.UserInfo, bool) {
 
 	user, isExist, _ := CheckIsExistUser(email, ctx)
-	if isExist == false {
-		return user, false
+	if !isExist {
+		return nil, false
 	}
 
 	passwordBytes := []byte(password)
@@ -20,7 +20,7 @@ func TryLogin(email string, password string, ctx context.Context) (models.UserIn
 	err := bcrypt.CompareHashAndPassword(passwordDB, passwordBytes)
 	if err != nil {
 		logger.Error("Error while CompareHashAndPassword process", err)
-		return user, false
+		return nil, false
 	}
 	return user, true
 }

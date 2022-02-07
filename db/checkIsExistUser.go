@@ -7,7 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func CheckIsExistUser(email string, ctx context.Context) (models.UserInfo, bool, string) {
+func CheckIsExistUser(email string, ctx context.Context) (*models.UserInfo, bool, string) {
 
 	db := MongoCN.Database("twitter")
 	col := db.Collection("users")
@@ -19,7 +19,7 @@ func CheckIsExistUser(email string, ctx context.Context) (models.UserInfo, bool,
 	err := col.FindOne(ctx, condicion).Decode(&resUser)
 	ID := resUser.ID.Hex()
 	if err != nil {
-		return resUser, false, ID
+		return nil, false, ID
 	}
-	return resUser, true, ID
+	return &resUser, true, ID
 }
