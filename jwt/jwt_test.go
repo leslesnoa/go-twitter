@@ -11,7 +11,7 @@ import (
 
 func TestGenerateJWT(t *testing.T) {
 
-	signKey = []byte("sign key by test")
+	signKey := []byte("sign key by test")
 	objID := primitive.NewObjectID()
 
 	u := models.UserInfo{
