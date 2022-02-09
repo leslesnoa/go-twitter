@@ -23,7 +23,7 @@ func AccessToken(tk string, ctx context.Context) (*models.Claim, bool, string, e
 
 	splitToken := strings.Split(tk, "Bearer")
 	if len(splitToken) != 2 {
-		return claims, false, string(""), errors.New(fmt.Sprintf("format error invalid token %s", tk))
+		return nil, false, string(""), errors.New(fmt.Sprintf("format error invalid token %s", tk))
 	}
 
 	tk = strings.TrimSpace(splitToken[1])
@@ -32,18 +32,19 @@ func AccessToken(tk string, ctx context.Context) (*models.Claim, bool, string, e
 		return signKey, nil
 	})
 
-	if err == nil {
-		_, isExist, _ := db.CheckIsExistUser(claims.Email, ctx)
-		if isExist == true {
-			Email = claims.Email
-			IDUserInfo = claims.ID.Hex()
-		}
-		return claims, isExist, IDUserInfo, nil
+	if err != nil {
+		return nil, false, string(""), err
 	}
 
 	if !tkn.Valid {
-		return claims, false, string(""), errors.New("token invalid")
+		return nil, false, string(""), errors.New("token invalid")
 	}
 
-	return claims, false, string(""), err
+	_, isExist, _ := db.CheckIsExistUser(claims.Email, ctx)
+	if isExist == true {
+		Email = claims.Email
+		IDUserInfo = claims.ID.Hex()
+	}
+
+	return claims, isExist, IDUserInfo, nil
 }

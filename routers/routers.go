@@ -57,7 +57,7 @@ func Router() {
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "OPTIONS", "DELETE", "POST", "PUT"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
-		Debug:            true,
+		// Debug:            true,
 	}).Handler(router)
 
 	PORT := os.Getenv("PORT")
