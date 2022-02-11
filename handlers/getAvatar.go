@@ -12,7 +12,7 @@ func GetAvatar(w http.ResponseWriter, r *http.Request) {
 
 	ID := r.URL.Query().Get("id")
 	if len(ID) < 1 {
-		http.Error(w, "must request parameter id", http.StatusBadRequest)
+		http.Error(w, "Error request must be parameter id", http.StatusBadRequest)
 		return
 	}
 
