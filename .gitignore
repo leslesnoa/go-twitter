@@ -3,3 +3,5 @@
 **debug_storage
 **ebs
 **uploads
+**external-dns-deploy.yaml
+**policy

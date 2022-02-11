@@ -10,13 +10,12 @@ spec:
   selector:
     app: twitter # deploymentの特定
     tier: frontend # deploymentの特定
-  type: LoadBalancer
+  type: NodePort
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
 ---
-# frontend-deployment.yml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,9 +37,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.1.2
-        # env:
-        # - name: REACT_APP_API_HOST
-        #   value: "a1f88dcf0091c421a9f219b2940cd6cc-1951663297.ap-northeast-1.elb.amazonaws.com"
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.1.5
         ports:
         - containerPort: 80
