@@ -36,4 +36,5 @@ func GetBanner(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	defer Openfile.Close()
 }

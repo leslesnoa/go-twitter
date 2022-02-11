@@ -37,6 +37,8 @@ func UploadAvatar(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error when saving the avatar in the DB! "+err.Error(), http.StatusBadRequest)
 		return
 	}
+	defer file.Close()
+	defer f.Close()
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
