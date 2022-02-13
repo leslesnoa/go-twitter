@@ -3,7 +3,7 @@ package jwt
 import (
 	"testing"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt"
 	"github.com/leslesnoa/go-twitter/models"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -11,7 +11,7 @@ import (
 
 func TestGenerateJWT(t *testing.T) {
 
-	signKey := []byte("sign key by test")
+	signKey = []byte("sign key by test")
 	objID := primitive.NewObjectID()
 
 	u := models.UserInfo{

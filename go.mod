@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/mongo-go/testdb v0.0.0-20201209140737-c4845cc6fe67
 	github.com/rs/cors v1.8.2
