@@ -24,7 +24,7 @@ func Router() {
 
 	noAuthRouter.HandleFunc("/register", handlers.Register).Methods("POST")
 	noAuthRouter.HandleFunc("/login", handlers.Login).Methods("POST")
-	noAuthRouter.HandleFunc("/getAvatar", handlers.GetAvatar).Methods("GET")
+	noAuthRouter.HandleFunc("/getAvatar", handlers.GetAvatarS3).Methods("GET")
 	noAuthRouter.HandleFunc("/getBanner", handlers.GetBanner).Methods("GET")
 
 	authRouter := router.MatcherFunc(IsAuthRouter).Subrouter()
@@ -45,20 +45,22 @@ func Router() {
 	authRouter.HandleFunc("/listUsers", handlers.ListUsers).Methods("GET")
 	authRouter.HandleFunc("/readFollowTweets", handlers.ReadFollowTweets).Methods("GET")
 
-	authRouter.HandleFunc("/uploadAvatar", handlers.UploadAvatar).Methods("POST")
+	authRouter.HandleFunc("/uploadAvatar", handlers.UploadAvatarS3).Methods("POST")
 	authRouter.HandleFunc("/uploadBanner", handlers.UploadBanner).Methods("POST")
 
 	if webURI == "" {
 		webURI = "http://localhost:3000"
 	}
 
-	handler := cors.New(cors.Options{
-		AllowedOrigins:   []string{webURI},
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "OPTIONS", "DELETE", "POST", "PUT"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
-		// Debug:            true,
-	}).Handler(router)
+	// handler := cors.New(cors.Options{
+	// 	AllowedOrigins:   []string{webURI},
+	// 	AllowCredentials: true,
+	// 	AllowedMethods:   []string{"GET", "OPTIONS", "DELETE", "POST", "PUT"},
+	// 	AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
+	// 	// Debug:            true,
+	// }).Handler(router)
+
+	handler := cors.AllowAll().Handler(router)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {

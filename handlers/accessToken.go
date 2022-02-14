@@ -19,6 +19,7 @@ var (
 
 func AccessToken(tk string, ctx context.Context) (*models.Claim, bool, string, error) {
 	signKey := []byte(os.Getenv("SIGN_KEY"))
+	signKey = []byte("tes sing key")
 	claims := &models.Claim{}
 
 	splitToken := strings.Split(tk, "Bearer")

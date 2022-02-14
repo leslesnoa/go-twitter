@@ -14,6 +14,8 @@ var (
 
 func GenerateJWT(t *models.UserInfo) (string, error) {
 
+	signKey = []byte("tes sing key")
+
 	claims := jwt.MapClaims{
 		"email":     t.Email,
 		"number":    t.Number,

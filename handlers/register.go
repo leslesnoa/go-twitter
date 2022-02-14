@@ -18,12 +18,12 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(t.Email) == 0 {
-		http.Error(w, "Error invalid request Email is cannot empty: "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "Error invalid request Email is cannot empty", http.StatusBadRequest)
 		return
 	}
 
-	if len(t.Password) < 6 {
-		http.Error(w, "Error password cannot less than 6 characters: "+err.Error(), http.StatusBadRequest)
+	if len(t.Password) < 4 {
+		http.Error(w, "Error password cannot less than 6 characters", http.StatusBadRequest)
 		return
 	}
 

@@ -37,6 +37,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.1.5
+        image: 102665740320.dkr.ecr.ap-northeast-1.amazonaws.com/twitter-web:v1.1.6
         ports:
         - containerPort: 80
